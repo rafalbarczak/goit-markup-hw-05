@@ -9,6 +9,7 @@
   --light-grey-border: #ececec;
   --transparent-white: rgba(255, 255, 255, 0.6);
   --icons: #afb1b8;
+  --animation-time: 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 h1,
 h2,
@@ -56,6 +57,8 @@ body {
   line-height: 1.15;
   font-size: 14px;
   letter-spacing: 0.02em;
+  position: relative;
+  transition: color var(--animation-time);
 }
 .header-contact-container {
   display: flex;
@@ -90,6 +93,23 @@ body {
   font-weight: 500;
   font-size: 14px;
   letter-spacing: 0.02em;
+  transition: var(--animation-time);
+}
+.nav-list .is-active {
+  position: relative;
+  color: var(--interaction-color);
+}
+.is-active::after,
+.nav-list a:hover::after,
+.nav-list a:focus::after {
+  content: "";
+  width: 100%;
+  height: 4px;
+  background-color: var(--interaction-color);
+  border-radius: 2px;
+  position: absolute;
+  left: 0;
+  bottom: -32px;
 }
 .nav-list a:hover,
 .nav-list a:focus,
@@ -142,6 +162,45 @@ body {
   border-radius: 4px;
   margin-bottom: 106px;
 }
+.backdrop {
+  background-color: rgba(0, 0, 0, 0.2);
+  position: fixed;
+  display: flex;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transition: opacity var(--animation-time);
+}
+.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--animation-time), visibility var(--animation-time);
+}
+.modal {
+  background-color: var(--white);
+  margin: auto;
+  width: 528px;
+  height: 581px;
+  position: relative;
+  transition: transform var(--animation-time);
+}
+.backdrop.is-hidden .modal {
+  transform: scale(0);
+}
+.close-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border-color: rgba(0, 0, 0, 0.1);
+  background-color: var(--white);
+  cursor: pointer;
+}
 .article-flex-container {
   display: flex;
   list-style: none;
@@ -181,14 +240,34 @@ body {
 }
 .images-flex-container {
   display: flex;
-  padding-left: 15px;
-  padding-right: 15px;
   padding-top: 50px;
   gap: 30px;
+}
+.image-with-description {
+  position: relative;
+  display: block;
+  height: 294px;
+}
+.image-description {
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(47, 48, 58, 0.8);
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.03em;
 }
 .header-wrapper {
   border-bottom: 1px solid var(--light-grey-border);
   padding: 24px 0 25px;
+  position: relative;
 }
 .dark-background {
   background-color: var(--brand-gray);
@@ -252,6 +331,7 @@ body {
   align-items: center;
   border-radius: 50%;
   justify-content: center;
+  transition: fill var(--animation-time), background-color var(--animation-time);
 }
 .workers-socials-icon:hover,
 .workers-socials-icon:focus,
@@ -282,6 +362,8 @@ body {
   border: none;
   border-radius: 4px;
   padding: 6px 22px;
+  transition: color var(--animation-time),
+    background-color var(--animation-time), box-shadow var(--animation-time);
 }
 .filter-button:hover,
 .filter-button:focus {
@@ -296,10 +378,41 @@ body {
   gap: 30px;
   flex-wrap: wrap;
   justify-content: center;
+  font-size: 0;
+}
+.images-item {
+  cursor: pointer;
+  transition: box-shadow var(--animation-time);
 }
 .images-item:hover {
   box-shadow: 0px 1px 1px 0px #0000001f, 0px 4px 4px 0px #0000000f,
     0px 1px 1px 0px #0000001f;
+}
+.images-container {
+  height: 294px;
+  width: 370px;
+  overflow: hidden;
+  position: relative;
+}
+.images-container img {
+  font-size: 0;
+}
+.images-overlay {
+  background-color: rgba(33, 150, 243, 0.9);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  transform: translateY(100%);
+  transition: translate, var(--animation-time);
+  font-size: 18px;
+  line-height: 1.56;
+  letter-spacing: 0.03em;
+  padding: 49px 45px 49px 24px;
+  text-justify: left;
+  color: var(--white);
+}
+.images-item:hover .images-overlay {
+  transform: translateY(0);
 }
 .images-list figure {
   padding: 0;
@@ -311,18 +424,20 @@ body {
   align-items: flex-start;
   gap: 4px;
   padding: 20px 24px;
-  margin-top: -4px;
   border: 1px solid #eeeeee;
   border-top: none;
 }
 .list-item {
+  padding: 2px 0;
   font-size: 18px;
   line-height: 1.71;
   font-weight: 700;
 }
 .list-item-type {
+  padding: 2px 0;
   color: var(--text-color);
   line-height: 1.6;
+  font-size: 16px;
 }
 .clients-list {
   list-style: none;
@@ -340,6 +455,7 @@ body {
   border-radius: 4px;
   height: 92px;
   width: 170px;
+  transition: border var(--animation-time), fill var(--animation-time);
 }
 .clients-icon {
   fill: var(--icons);
@@ -381,11 +497,13 @@ body {
 .contact-footer-underlined {
   color: var(--transparent-white);
   line-height: 1.71;
+  transition: color var(--animation-time);
 }
 .contact-footer {
   color: var(--transparent-white);
   line-height: 1.71;
   text-decoration: none;
+  transition: color var(--animation-time);
 }
 .footer-join {
   padding-top: 72px;
@@ -416,4 +534,5 @@ body {
   align-items: center;
   border-radius: 50%;
   justify-content: center;
+  transition: background-color var(--animation-time);
 }
