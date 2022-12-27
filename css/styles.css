@@ -411,7 +411,8 @@ body {
   text-justify: left;
   color: var(--white);
 }
-.images-item:hover .images-overlay {
+.images-item:hover .images-overlay,
+.images-item:focus .images-overlay {
   transform: translateY(0);
 }
 .images-list figure {
